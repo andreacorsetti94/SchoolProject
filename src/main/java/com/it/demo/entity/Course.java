@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "Course")
 public class Course {
 
     @Id
     @GeneratedValue
+    @Column(name = "course_id")
     private Long course_id;
 
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(cascade = { CascadeType.ALL })

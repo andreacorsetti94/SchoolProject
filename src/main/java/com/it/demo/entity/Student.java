@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "Student")
 public class Student extends Person {
 
 	@ManyToMany(cascade = { CascadeType.ALL })
