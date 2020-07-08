@@ -1,5 +1,6 @@
 package com.it.demo.controller;
 
+import com.it.demo.dto.StudentDto;
 import com.it.demo.service.CourseService;
 import com.it.demo.service.StudentService;
 import com.it.demo.entity.Student;
@@ -20,18 +21,21 @@ public class StudentController {
     private CourseService courseService;
 
     @GetMapping("/students")
-    public List<Student> getAllStudents(){
-        return this.studentService.getAllStudents();
+    public List<StudentDto> getAllStudents(){
+        List<Student> students = this.studentService.getAllStudents();
+        return this.studentService.convertStudentEntityListToDto(students);
     }
 
     @GetMapping("/students/{idStudent}")
-    public Student getStudentById(@PathVariable Long idStudent){
-        return this.studentService.getStudente(idStudent);
+    public StudentDto getStudentById(@PathVariable Long idStudent){
+        Student student = this.studentService.getStudente(idStudent);
+        return this.studentService.convertStudentEntityToDto(student);
     }
 
     @GetMapping("/students/course/{courseId}")
-    public List<Student> studentsByCourse(@PathVariable Long courseId){
-        return this.courseService.getStudentsByCourse(courseId);
+    public List<StudentDto> studentsByCourse(@PathVariable Long courseId){
+        List<Student> students = this.courseService.getStudentsByCourse(courseId);
+        return this.studentService.convertStudentEntityListToDto(students);
     }
 
 }

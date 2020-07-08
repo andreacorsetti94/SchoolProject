@@ -1,5 +1,6 @@
 package com.it.demo.service;
 
+import com.it.demo.dto.CourseDto;
 import com.it.demo.entity.Course;
 import com.it.demo.entity.Professor;
 import com.it.demo.entity.Student;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CourseService {
+public class CourseService extends AbstractService{
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -113,8 +114,29 @@ public class CourseService {
     }
 
     public List<Course> getCoursesTeachedByProfessor(Long professorId){
-        List<Course> courses = this.courseRepository.findByProfessor(professorId);
+        if(!professorService.professorExists(professorId)){
+            String error = String.format("Professor ID %s Not Found", professorId);
+            logger.error(error);
+            throw new ResourceNotFoundException(error);
+        }
+        List<Course> courses = this.courseRepository.findByProfessorId(professorId);
         logger.info("Returning All Courses for professor"+professorId+"\n"+courses.toString());
         return courses;
+    }
+
+    public CourseDto convertCourseEntityToDto(Course course){
+        return super.getMapper().map(course, CourseDto.class);
+    }
+
+    public Course convertCourseDtoToEntity(CourseDto courseDto){
+        return super.getMapper().map(courseDto, Course.class);
+    }
+
+    public List<CourseDto> convertCourseEntityListToDto(List<Course> courses){
+        return super.getMapper().mapAsList(courses, CourseDto.class);
+    }
+
+    public List<Course> convertCourseDtoListToEntity(List<CourseDto> courses){
+        return super.getMapper().mapAsList(courses, Course.class);
     }
 }

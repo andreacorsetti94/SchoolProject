@@ -1,5 +1,6 @@
 package com.it.demo.service;
 
+import com.it.demo.dto.StudentDto;
 import com.it.demo.exceptions.ResourceNotFoundException;
 import com.it.demo.repository.StudentRepository;
 import com.it.demo.entity.Student;
@@ -13,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
-public class StudentService {
+public class StudentService extends AbstractService{
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -36,6 +37,22 @@ public class StudentService {
         String error = String.format("Student with id %s not found", idStudente);
         logger.error(error);
         throw new ResourceNotFoundException(error);
+    }
+
+    public StudentDto convertStudentEntityToDto(Student student){
+        return super.getMapper().map(student, StudentDto.class);
+    }
+
+    public Student convertStudentDtoToEntity(StudentDto studentDto){
+        return super.getMapper().map(studentDto, Student.class);
+    }
+
+    public List<StudentDto> convertStudentEntityListToDto(List<Student> students){
+        return super.getMapper().mapAsList(students, StudentDto.class);
+    }
+
+    public List<Student> convertStudentDtoListToEntity(List<StudentDto> studentDtos){
+        return super.getMapper().mapAsList(studentDtos, Student.class);
     }
 
 

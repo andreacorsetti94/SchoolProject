@@ -1,7 +1,5 @@
 package com.it.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -14,7 +12,7 @@ public class Student extends Person {
 	@JoinTable(name = "Course_Student",
 			joinColumns = { @JoinColumn(name = "student_id") },
 			inverseJoinColumns = { @JoinColumn(name = "course_id") })
-	@JsonIgnore
+
 	private List<Course> courses;
 
 	public Student(Long id, String name, String lastname, LocalDate birthDate, Sex sex) {
